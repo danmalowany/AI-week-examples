@@ -4,8 +4,6 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
-from trains import Task
-
 
 # Build the tf.keras model using the Keras model subclassing API
 class MyModel(Model):
