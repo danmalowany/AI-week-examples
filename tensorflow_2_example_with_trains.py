@@ -4,6 +4,8 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
+from argparse import ArgumentParser
+
 from trains import Task
 task = Task.init(project_name='TensorFlow 2 example',
                  task_name='TensorFlow 2 quickstart for experts - <my name>')
@@ -44,11 +46,11 @@ def prepare_data(batch_size):
 
 def train_model(model, trains_task_parameters, train_ds, test_ds):
     print('Starting model training with learning_rate={} and batch_size={}'.
-          format(trains_task_parameters['learning_rate'], trains_task_parameters['batch_size']))
+          format(trains_task_parameters.learning_rate, trains_task_parameters.batch_size))
 
     # Choose an optimizer and loss function for training
     loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
-    optimizer = tf.keras.optimizers.Adam(learning_rate=trains_task_parameters['learning_rate'])
+    optimizer = tf.keras.optimizers.Adam(learning_rate=trains_task_parameters.learning_rate)
 
     # Select metrics to measure the loss and the accuracy of the model.
     # These metrics accumulate the values over epochs and then print the overall result.
@@ -96,7 +98,7 @@ def train_model(model, trains_task_parameters, train_ds, test_ds):
 
     # Start training
     iteration = 0
-    for epoch in range(trains_task_parameters['epochs']):
+    for epoch in range(trains_task_parameters.epochs):
         for images, labels in train_ds:
             iteration += 1
             train_step(images, labels)
@@ -133,9 +135,13 @@ def train_model(model, trains_task_parameters, train_ds, test_ds):
 
 if __name__ == "__main__":
     tf.keras.backend.set_floatx('float64')
-    task_parameters = {'learning_rate': 0.001, 'epochs': 5, 'batch_size': 32}
-    
-    train_dataset, test_dataset = prepare_data(task_parameters['batch_size'])
+    parser = ArgumentParser()
+    parser.add_argument("--learning_rate", type=float, default=0.001, help='Learning rate for the train process"')    
+    parser.add_argument("--batch_size", type=int, default=32, help='Batch size for the train process"')    
+    parser.add_argument("--epochs", type=int, default=5, help='Number of epochs for the train process"')  
+    task_parameters = parser.parse_args()
+
+    train_dataset, test_dataset = prepare_data(task_parameters.batch_size)
 
     # Create an instance of the model
     task_model = MyModel()
