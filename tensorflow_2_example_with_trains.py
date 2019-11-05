@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 
 from trains import Task
 task = Task.init(project_name='TensorFlow 2 example',
-                 task_name='TensorFlow 2 quickstart for experts - <my name>')
+                 task_name='TensorFlow 2 quickstart for experts - _my name_')
 
 
 # Build the tf.keras model using the Keras model subclassing API
