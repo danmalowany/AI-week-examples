@@ -6,9 +6,12 @@ from tensorflow.keras import Model
 
 from argparse import ArgumentParser
 
+import socket
+my_name = socket.gethostname()
+
 from trains import Task
 task = Task.init(project_name='TensorFlow 2 example',
-                 task_name='TensorFlow 2 quickstart for experts - _my name_')
+                 task_name='TensorFlow 2 quickstart for experts - {}'.format(my_name))
 
 
 # Build the tf.keras model using the Keras model subclassing API
