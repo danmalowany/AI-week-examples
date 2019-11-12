@@ -6,6 +6,8 @@ from tensorflow.keras import Model
 
 from argparse import ArgumentParser
 
+FROM_SCRATCH = True
+
 import socket
 my_name = socket.gethostname()
 
@@ -93,9 +95,10 @@ def train_model(model, trains_task_parameters, train_ds, test_ds):
     # Set up checkpoints manager
     ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=optimizer, net=model)
     manager = tf.train.CheckpointManager(ckpt, '/tmp/tf_ckpts', max_to_keep=3)
-    ckpt.restore(manager.latest_checkpoint)
-    if manager.latest_checkpoint:
-        print("Restored from {}".format(manager.latest_checkpoint))
+    latest_checkpoint = manager.latest_checkpoint if not FROM_SCRATCH else None
+    ckpt.restore(latest_checkpoint)
+    if latest_checkpoint:
+        print("Restored from {}".format(latest_checkpoint))
     else:
         print("Initializing from scratch.")
 
