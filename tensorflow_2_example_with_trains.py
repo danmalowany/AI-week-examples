@@ -13,7 +13,8 @@ my_name = socket.gethostname()
 
 from trains import Task
 task = Task.init(project_name='TensorFlow 2 example',
-                 task_name='TensorFlow 2 quickstart for experts - {}'.format(my_name))
+                 task_name='TensorFlow 2 quickstart for experts - {}'.format(my_name),
+                 reuse_last_task_id=False)
 
 
 # Build the tf.keras model using the Keras model subclassing API
