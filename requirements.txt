@@ -1,2 +1,2 @@
 trains==0.12.1
-tensorflow==2.0.1
+tensorflow==2.5.0
